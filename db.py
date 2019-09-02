@@ -8,7 +8,7 @@ def get_member(email):
     return db.members.find_one({"email":email})
 
 def add_member(member_dict):
-    db.members.insert_one(member_struct)
+    db.members.insert_one(member_dict)
 
 def delete_member(email):
     db.members.delete_one({"email":email})
