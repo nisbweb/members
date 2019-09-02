@@ -4,6 +4,17 @@ import os
 client = pymongo.MongoClient(os.environ["MONGO"])
 db = client.main
 
+def get_members():
+    members = []
+    ms = db.members.find()
+    for m in ms:
+        m.pop("_id")
+        members.append(m)
+    if len(members)>0:
+        return members
+    else:
+        return None
+
 def get_member(email):
     member = db.members.find_one({"email":email})
     if member:

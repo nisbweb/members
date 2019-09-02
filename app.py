@@ -10,6 +10,16 @@ def index():
         "status":"ok"
     })
 
+@app.route("/members", methods=["GET"])
+def members_controller():
+    members = get_members()
+    if members:
+        return jsonify(members)
+    return jsonify({
+        "status":"error",
+        "error":"no member exists"
+    })
+
 @app.route("/member", methods=["GET","PUT","POST","DELETE"])
 def member_controller():
     if request.method=="GET":
@@ -22,7 +32,7 @@ def member_controller():
                 "status":"error",
                 "error":"member not found"
             })
-            
+
     elif request.method=="PUT":
         member_dict = request.get_json()
         update_member(member_dict)
