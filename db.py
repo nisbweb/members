@@ -1,7 +1,7 @@
 import pymongo
 import os
 
-client = pymongo.MongoClient(os.environ["MONGO"])
+client = pymongo.MongoClient(os.environ["MONGO"],connect=False)
 db = client.main
 
 def get_members():
