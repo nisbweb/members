@@ -15,15 +15,24 @@ def member_controller():
     if request.method=="GET":
         email = request.args.get("email")
         member = get_member(email)
-        return jsonify(member)
+        if member:
+            return jsonify(member)
+        else:
+            return jsonify({
+                "status":"error",
+                "error":"member not found"
+            })
+            
     elif request.method=="PUT":
         member_dict = request.get_json()
         update_member(member_dict)
         return jsonify({"status":"ok"})
+
     elif request.method=="DELETE":
         email = request.args.get("email")
         delete_member(email)
         return jsonify({"status":"ok"})
+
     elif request.method=="POST":
         member_dict = request.get_json()
         add_member(member_dict)

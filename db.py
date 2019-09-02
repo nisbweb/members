@@ -6,8 +6,10 @@ db = client.main
 
 def get_member(email):
     member = db.members.find_one({"email":email})
-    member.pop("_id")
-    return member
+    if member:
+        member.pop("_id")
+        return member
+    return None
 
 def add_member(member_dict):
     db.members.insert_one(member_dict)
