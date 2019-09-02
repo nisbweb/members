@@ -1,7 +1,13 @@
 from flask import Flask, request, jsonify
 from db import *
+import requests
 
 app = Flask(__name__)
+
+
+def verify_auth(auth):
+    r = requests.get("http://nisb-auth.herokuapp.com/auth?auth=auth")
+    return r.status_code==200
 
 # Does nothing
 @app.route('/')
@@ -12,6 +18,8 @@ def index():
 
 @app.route("/members", methods=["GET"])
 def members_controller():
+    if not verify_auth(request.args.get("auth")):
+        return jsonify({"status":"error","error":"auth is not valid"})
     members = get_members()
     if members:
         return jsonify(members)
@@ -22,6 +30,8 @@ def members_controller():
 
 @app.route("/member", methods=["GET","PUT","POST","DELETE"])
 def member_controller():
+    if not verify_auth(request.args.get("auth")):
+        return jsonify({"status":"error","error":"auth is not valid"})
     if request.method=="GET":
         email = request.args.get("email")
         member = get_member(email)
