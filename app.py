@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from db import *
 import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 def verify_auth(auth):
