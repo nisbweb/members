@@ -1,0 +1,29 @@
+sudo: false
+language: python
+cache: pip
+python:
+- 3.6
+install: skip
+script: echo "Running tests ..."
+stages:
+- basic
+- name: deploy
+  if: branch = master
+- notify
+jobs:
+  include:
+  - stage: basic
+    script: make lint
+    name: Linting
+  - script: make test
+    name: Unit Tests
+  - stage: deploy
+    script: skip
+    deploy:
+      provider: heroku
+      api_key:
+        secure: DXmH4j2q7ZOWixvaEulMS8FqV0Smp7lC3n0HeZj/Nzdalu/hsWGDDd1KkhL5HqWtWB0vi+vO09OzvGFUfaqUJwJBleUs+FC+YtTyugaeXrArmqve2xugOEMP45YoSbg4Ka16hP14gyGdqQ62LU8+hfIbvm10cDb7UwpOdcWpq2aPD/jsZYc69y8ThCvOS6qzydGWdQ+lbt+p0nu2MT4oYcP2c9cCxWd/1D59xGOH+ZE3mPqxvfqjNOku00O0Fjo8rIyUg6bBc9XI9EyxiCXx81tZQ8LV26howJkqL15PYL3C4vD7ZMfDEO1lkTAGkkXSUqhOznF53iu9yTBts4qtqmco83kuWXdMtEk3OlUzBZhXiUQozVtW8K2dS8AnYj6llgP75fIFHZRGVC98IQRF7bEOfNZIcnTBBakqiY6HZul5KnoRvTf8fLs5OmKFxKnU+jic7JUOYHSVV8Nc3U17TKF6sb/R8A0nQBArcHS82VcBgSjqdigicMj/mkoE3v9Vq/nJQ02VsA6/hPmG6oQvvzOrMKu05Bp3Hry/DOP8yGYa/1R7hlErO6g+KwRmrZ+y2pLiccpyj/u/QdIt7pNxa4JUKbTf/lAoWV5xT2EV1y5Dr95M1NpeZpSwNdwdxvUKsGF3eFE6Hf0u9HK3f91HOkZUREp5zugbJaCHtGgwtRA=
+      app: nisb-members
+  - stage: notify
+    notifications:
+      email: mridul.kepler@gmail.com
