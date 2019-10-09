@@ -24,8 +24,8 @@ def members_controller():
     if not verify_auth(request.args.get("auth")):
         return jsonify({"status": "error", "error": "auth is not valid"}), 403
 
-    page_no = int(request.args.get("page_no", None))
-    items_per_page = int(request.args.get("items_per_page", "50"))
+    page_no = request.args.get("page_no", None)
+    items_per_page = request.args.get("items_per_page", "50")
 
     members = get_members(page_no, items_per_page)
     if members:
