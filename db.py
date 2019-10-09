@@ -8,7 +8,9 @@ db = client.main
 def get_members(page_no=None, no_items=50):
     members = []
     if page_no:
-        ms = db.members.find().skip((int(page_no)-1)*int(no_items)).limit(int(no_items))
+        ms = db.members.find() \
+                    .skip((int(page_no)-1)*int(no_items)) \
+                    .limit(int(no_items))
     else:
         ms = db.members.find()
     for m in ms:
