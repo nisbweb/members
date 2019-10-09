@@ -23,21 +23,11 @@ def index():
 def members_controller():
     if not verify_auth(request.args.get("auth")):
         return jsonify({"status": "error", "error": "auth is not valid"}), 403
-    members = get_members()
-    if members:
-        return jsonify(members)
-    return jsonify({
-        "status": "error",
-        "error": "no member exists"
-    })
 
-
-@app.route("/members/page/<page_no>", methods=["GET"])
-def members_paginated_controller(page_no):
-    if not verify_auth(request.args.get("auth")):
-        return jsonify({"status": "error", "error": "auth is not valid"}), 403
+    page_no = int(request.args.get("page_no", None))
     items_per_page = int(request.args.get("items_per_page", "50"))
-    members = get_members_paginated(int(page_no), items_per_page)
+
+    members = get_members(page_no, items_per_page)
     if members:
         return jsonify(members)
     return jsonify({
