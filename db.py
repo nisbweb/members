@@ -5,21 +5,12 @@ client = pymongo.MongoClient(os.environ["MONGO"], connect=False)
 db = client.main
 
 
-def get_members_paginated(page_no, no_items=50):
+def get_members(page_no=None, no_items=50):
     members = []
-    ms = db.members.find().skip((page_no-1)*no_items).limit(no_items)
-    for m in ms:
-        m.pop("_id")
-        members.append(m)
-    if len(members) > 0:
-        return members
+    if page_no:
+        ms = db.members.find().skip((page_no-1)*no_items).limit(no_items)
     else:
-        return None
-
-
-def get_members():
-    members = []
-    ms = db.members.find()
+        ms = db.members.find()
     for m in ms:
         m.pop("_id")
         members.append(m)
