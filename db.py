@@ -5,6 +5,10 @@ client = pymongo.MongoClient(os.environ["MONGO"], connect=False)
 db = client.main
 
 
+def get_members_count():
+    return db.members.find().count()
+
+
 def get_members(page_no=None, no_items=50):
     members = []
     if page_no:
