@@ -19,6 +19,14 @@ def index():
     })
 
 
+@app.route("/members/count", methods=["GET"])
+def members_count_controller():
+    if not verify_auth(request.args.get("auth")):
+        return jsonify({"status": "error", "error": "auth is not valid"}), 403
+
+    return jsonify({"count": get_members_count()})
+
+
 @app.route("/members", methods=["GET"])
 def members_controller():
     if not verify_auth(request.args.get("auth")):
