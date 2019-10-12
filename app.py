@@ -1,7 +1,9 @@
+import sentry
 from flask import Flask, request, jsonify
-from db import *
 import requests
 from flask_cors import CORS
+from db import *
+
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -109,5 +111,4 @@ def member_controller():
 
 if __name__ == '__main__':
     # session["login"] = False
-
     app.run(host='0.0.0.0', debug=True)
