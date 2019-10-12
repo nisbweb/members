@@ -35,7 +35,10 @@ def get_member(email):
 
 
 def add_member(member_dict):
-    db.members.insert_one(member_dict)
+    if not get_member(member_dict.email):
+        return db.members.insert_one(member_dict)
+    else:
+        return None
 
 
 def delete_member(email):
