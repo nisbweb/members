@@ -71,8 +71,13 @@ def member_controller():
 
     elif request.method == "POST":
         member_dict = request.get_json()
-        add_member(member_dict)
-        return jsonify({"status": "ok"})
+        if add_member(member_dict):
+            return jsonify({"status": "ok"})
+        else:
+            return jsonify({
+                "status": "error",
+                "error": "member could not be created"
+                })
 
 
 if __name__ == '__main__':
